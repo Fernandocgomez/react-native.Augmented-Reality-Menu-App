@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  itemName: MyString
+  itemDescription: MyString
+  texture_url: MyString
+  obj_url: MyString
+  mtl_url: MyString
+  category: MyString
+  img_2D_url: MyString
+  menu: one
+
+two:
+  itemName: MyString
+  itemDescription: MyString
+  texture_url: MyString
+  obj_url: MyString
+  mtl_url: MyString
+  category: MyString
+  img_2D_url: MyString
+  menu: two
