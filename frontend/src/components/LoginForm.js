@@ -7,24 +7,44 @@ class LoginForm extends React.Component {
         this.state = {};
     }
 
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    login = (e) => {
+        e.preventDefault()
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: this.state.email,
+                password: this.state.password,
+            })
+        })
+        .then(res => res.json())
+        .then(console.log)
+    }
+
 
     render() {
 
         return (
             <>
                 <h1 style={h1}>Welcome!</h1>
-                <Container style={{ marginTop: '30px', backgroundColor: '#f8f8f8', padding: '50px', borderRadius: 6, width: '75%', marginBottom:'100px' }}>
-                    <Form>
-                        <Form.Group controlId="formBasicEmail">
+                <Container style={{ marginTop: '30px', backgroundColor: '#f8f8f8', padding: '50px', borderRadius: 6, width: '75%', marginBottom: '100px' }}>
+                    <Form onSubmit={(e) => this.login(e)}>
+                        <Form.Group>
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                            <Form.Control onChange={(e) => this.handleChange(e)} name="email" type="email" placeholder="Enter email" />
                         </Form.Group>
-                        <Form.Group controlId="formBasicPassword" style={{marginBottom: '30px'}}>
+                        <Form.Group style={{ marginBottom: '30px' }}>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Control onChange={(e) => this.handleChange(e)} name="password" type="password" placeholder="Password" />
                         </Form.Group>
-                        
-
                         <Button variant="primary" size="lg" block type="submit" style={{ width: '100%', backgroundColor: '#26afd1', borderColor: '#26afd1', fontSize: '22px' }}>
                             Login
                         </Button>

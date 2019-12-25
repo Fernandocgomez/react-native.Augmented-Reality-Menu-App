@@ -10,7 +10,7 @@ class RestaurantsController < ApplicationController
         restaurant = Restaurant.new(user_params)
         if restaurant.valid? 
             restaurant.save
-            render json: {message: "User created"}, status: :created
+            render json: {user: RestaurantSerializer.new(restaurant)}, status: :created
         else
             render json: {error: "Failed to create account"}, status: :not_acceptable
         end
@@ -21,4 +21,7 @@ class RestaurantsController < ApplicationController
     def user_params
         params.permit(:name, :email, :password, :address1, :city, :state, :zipCode, :logo_url)
     end
+
 end
+
+
