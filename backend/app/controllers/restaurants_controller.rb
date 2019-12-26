@@ -1,13 +1,14 @@
 class RestaurantsController < ApplicationController
 
+    skip_before_action :check_authentication, only: [:create]
+
     def index
         restaurants = Restaurant.all
         render :json => restaurants.to_json(:include => { :menus => {:include =>:items} })
     end
 
-
     def create 
-        restaurant = Restaurant.new(user_params)
+        restaurant = Restaurant.new(restaurant_params)
         if restaurant.valid? 
             restaurant.save
             render json: {user: RestaurantSerializer.new(restaurant)}, status: :created
@@ -18,7 +19,7 @@ class RestaurantsController < ApplicationController
 
     private 
 
-    def user_params
+    def restaurant_params
         params.permit(:name, :email, :password, :address1, :city, :state, :zipCode, :logo_url)
     end
 

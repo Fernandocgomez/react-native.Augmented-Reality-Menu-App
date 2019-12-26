@@ -1,11 +1,15 @@
 import React from 'react'
 import { Form, Button, Container } from 'react-bootstrap';
 
+
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            currentRestaurantLogin: null
+        };
     }
+
 
     handleChange = (e) => {
         this.setState({
@@ -15,6 +19,7 @@ class LoginForm extends React.Component {
 
     login = (e) => {
         e.preventDefault()
+
         fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: {
@@ -25,13 +30,36 @@ class LoginForm extends React.Component {
                 password: this.state.password,
             })
         })
-        .then(res => res.json())
-        .then(console.log)
+            .then(res => res.json())
+            .then(restaurantInfo => {
+                localStorage.setItem("token", restaurantInfo.token)
+                localStorage.setItem("currentRestaurantName", restaurantInfo.restaurant.name)                   
+                localStorage.setItem("currentRestaurantId", restaurantInfo.restaurant.id) 
+            })
+
+
+            // fix: having to click twice on the button to invoke this
+        if (localStorage.token === "undefined" ) {
+            alert('Password or email is invalided')
+        } else {
+            this.props.checkToken()
+        }
+
+
+        // fix: redirect to the my menus page
+
+
+
+
+
+
+
+
     }
 
 
     render() {
-
+        console.log(this.state.currentRestaurantLogin)
         return (
             <>
                 <h1 style={h1}>Welcome!</h1>

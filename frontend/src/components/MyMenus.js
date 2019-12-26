@@ -1,15 +1,29 @@
 import React from 'react'
 import { Container, Card, CardColumns } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import CreateItem from './CreateItem';
 
 class MyMenus extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            addModalShow: false
+        };
+    }
+
+    showModal = () => {
+        this.setState({ addModalShow: true })
     }
 
 
     render() {
+
+        let modalClose = () => {
+
+            this.setState({
+                addModalShow: false
+            })
+        }
 
         return (
             <>
@@ -28,33 +42,30 @@ class MyMenus extends React.Component {
                                     <Link className='child' style={btnMenu}>Delete</Link>
                                 </div>
                                 <div className='flex-container-2'>
-                                    <a href="#" className='child' style={btnMenuAction}>
+                                    <Link className='child' style={btnMenuAction} onClick={this.showModal}>
                                         Add Item
-                                    </a>                                    
+                                    </Link>
                                 </div>
                             </Card.Body>
                         </Card>
                     </CardColumns>
                 </Container>
-
+                <CreateItem
+                    show={this.state.addModalShow}
+                    onHide={modalClose}
+                />
             </>
         );
     }
 }
-
 export default MyMenus;
-
-
 const btnMenu = {
     borderStyle: 'solid',
     borderRadius: 4,
     borderWidth: 1,
     borderColor: '#black',
     color: 'black',
-
-
 };
-
 const btnMenuAction = {
     borderStyle: 'solid',
     borderRadius: 4,
@@ -62,5 +73,3 @@ const btnMenuAction = {
     borderColor: '#black',
     color: 'black',
 };
-
-
