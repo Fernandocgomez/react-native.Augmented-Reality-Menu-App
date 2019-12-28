@@ -31,7 +31,11 @@ class MyMenus extends React.Component {
             })
     }
 
-    renderMenu = () => {
+    updateMenus = () => {
+        
+    }
+
+    renderMenus = () => {
         return this.state.menus.map(menu => {
             return (
                 <Card style={{width: '18rem'}} classNAme="my-menus-child">
@@ -69,7 +73,7 @@ class MyMenus extends React.Component {
             <>
                 <Container className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '100px'}}>
                     <CardColumns>
-                        {this.renderMenu()}
+                        {this.renderMenus()}
                     </CardColumns>
                 </Container>
 

@@ -19,8 +19,6 @@ class CreateMenu extends Component {
     })
   }
   
-  
-
   uploadToAmazonS3 = (e) => {
     const config = {
       bucketName: 'armenu',
@@ -59,12 +57,7 @@ class CreateMenu extends Component {
     .then(res => res.json())
     .then(console.log)
 
-
-
   }
-
-
-
 
   render() {
     console.log(this.state)
