@@ -25,15 +25,18 @@ class NavBar extends React.Component {
     // fix: when click on the logout button redirect to the login page
   }
 
+  
+
 
   render() {
 
     let modalClose = () => {
-      console.log('close button')
       this.setState({
         addModalShow: false
       })
     }
+
+    console.log(this)
 
     return (
       <>
@@ -59,9 +62,9 @@ class NavBar extends React.Component {
 
           {this.props.showNavLinks ? (
             <>
-              <h4>Welcome {localStorage.currentRestaurantName}</h4>
-              <Link style={logout} onClick={this.logout}>Log out</Link>
-            </>
+              <h5>Welcome {localStorage.currentRestaurantName}</h5>
+              <Link to="/login" style={logout} onClick={this.logout}>Log out</Link>
+            </> 
           ) : (
               <>
                 <Link style={signIn} to="/sign-up">Sign Up</Link>

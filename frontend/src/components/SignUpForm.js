@@ -9,6 +9,7 @@ class SignUpForm extends React.Component {
     super(props);
     this.state = {
       name: '',
+      buttonNoClickable: true
     };
   }
 
@@ -29,8 +30,11 @@ class SignUpForm extends React.Component {
     const newFileName = `${this.state.name}_logo`;
 
     ReactS3Client.uploadFile(e.target.files[0], newFileName)
-      .then(data => this.setState({logo_url: data.location}))
+      .then(data => this.setState({logo_url: data.location}, this.setState({
+        buttonNoClickable: false
+      })))
       .catch(err => console.error(err))
+      
   }
 
   handleChange = (e) => {
@@ -59,10 +63,13 @@ class SignUpForm extends React.Component {
     })
     .then(res => res.json())
     .then(console.log)
+    this.props.history.history.push('/login')
+    
+
   }
 
   render() {
-    console.log(this.state)
+
     return (
       <>
         <h1 style={h1}>Register Your Business, Today!</h1>
@@ -120,9 +127,27 @@ class SignUpForm extends React.Component {
               />
             </Form.Group>
 
-            <Button variant="primary" size="lg" block type="submit" style={{ width: '100%', backgroundColor: '#26afd1', borderColor: '#26afd1', fontSize: '22px' }}>
+            
+           
+
+
+            {this.state.buttonNoClickable ? (
+              <>
+                <Button variant="primary" size="lg" block type="submit" style={{ width: '100%', backgroundColor: '#26afd1', borderColor: '#26afd1', fontSize: '22px' }} disabled>
               Register
             </Button>
+              </>
+            ) : (
+                <>
+                 <Button variant="primary" size="lg" block type="submit" style={{ width: '100%', backgroundColor: '#26afd1', borderColor: '#26afd1', fontSize: '22px' }}>
+              Register
+            </Button>
+                </>
+              )}
+
+
+
+
           </Form>
 
         </Container>

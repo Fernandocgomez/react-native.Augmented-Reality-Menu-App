@@ -7,6 +7,11 @@ class RestaurantsController < ApplicationController
         render :json => restaurants.to_json(:include => { :menus => {:include =>:items} })
     end
 
+    def show 
+        restaurant = Restaurant.find_by(id: params[:id])
+        render :json => restaurant.to_json(:include => { :menus => {:include =>:items} })
+    end
+
     def create 
         restaurant = Restaurant.new(restaurant_params)
         if restaurant.valid? 

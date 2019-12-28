@@ -30,36 +30,28 @@ class LoginForm extends React.Component {
                 password: this.state.password,
             })
         })
-            .then(res => res.json())
-            .then(restaurantInfo => {
-                localStorage.setItem("token", restaurantInfo.token)
-                localStorage.setItem("currentRestaurantName", restaurantInfo.restaurant.name)                   
-                localStorage.setItem("currentRestaurantId", restaurantInfo.restaurant.id) 
-            })
-
-
-            // fix: having to click twice on the button to invoke this
-        if (localStorage.token === "undefined" ) {
-            alert('Password or email is invalided')
-        } else {
-            this.props.checkToken()
-        }
-
-
-        // fix: redirect to the my menus page
-
-
-
-
-
-
-
-
+        .then(res => res.json())
+        .then(restaurantInfo => {
+            localStorage.setItem("token", restaurantInfo.token)
+            console.log(restaurantInfo.token)
+            if(localStorage.token === restaurantInfo.token){
+            localStorage.setItem("currentRestaurantName", restaurantInfo.restaurant.name)                   
+            localStorage.setItem("currentRestaurantId", restaurantInfo.restaurant.id) 
+            }
+            if(localStorage.token === restaurantInfo.token){
+                this.props.checkToken()
+                this.props.history.history.push('/my-menus')
+            }else{
+                alert('Password or email is invalided')
+            }
+            
+        })
     }
 
 
+
+
     render() {
-        console.log(this.state.currentRestaurantLogin)
         return (
             <>
                 <h1 style={h1}>Welcome!</h1>

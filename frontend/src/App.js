@@ -1,10 +1,8 @@
 import React from 'react'
-import {  } from 'react-bootstrap';
 import {
-  BrowserRouter as Router,
   Switch,
-  Route, 
-  useHistory
+  Route,
+  BrowserRouter,
 } from "react-router-dom";
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
@@ -15,17 +13,19 @@ import './App.css';
 import MenusItems from './components/MenusItems';
 import CreateMenu from './components/CreateMenu';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showNavLinks: JSON.parse(localStorage.getItem('showNavLinks')) || false
+      showNavLinks: JSON.parse(localStorage.getItem('showNavLinks')) || false, 
+      
     };
-    
+
   }
 
   checkToken = () => {
-    if(localStorage.token){
+    if (localStorage.token) {
       this.setState({
         showNavLinks: true
       }, () => {
@@ -41,39 +41,25 @@ class App extends React.Component {
   }
 
   render() {
-    
+
+
     return (
+
       
-      <Router>
-      <NavBar showNavLinks={this.state.showNavLinks} logout={this.logout}/>
-
-        <Switch>
-
+      <BrowserRouter>
           
-
-          <Route exact path="/sign-up">
-            <SignUpForm /> 
-          </Route>
-          <Route exact path="/login">
-            <LoginForm checkToken={this.checkToken}/> 
-          </Route>
-          <Route exact path="/my-menus">
-            <MyMenus /> 
-          </Route>
-          <Route exact path="/menus-items">
-            <MenusItems /> 
-          </Route>
-          <Route exact path="/create-menu">
-            <CreateMenu /> 
-          </Route>
-
-        </Switch>
-
-
-        <Footer /> 
-        </Router>
+          <NavBar showNavLinks={this.state.showNavLinks} logout={this.logout}/>
+          <Switch>
+            <Route exact path='/login' component={(history) => <LoginForm checkToken={this.checkToken} history={history}/>} />
+            <Route exact path='/sign-up' component={(history) => <SignUpForm  history={history}/>} />
+            <Route exact path='/my-menus' component={(history) => <MyMenus  history={history}/>} />
+            <Route exact path='/menus-items' component={(history) => <MenusItems  history={history}/>} />
+            <Route exact path='/create-menu' component={(history) => <CreateMenu  history={history}/>} />   
+          </Switch>
+          <Footer />
+      </BrowserRouter>
       
-      
+
     );
   }
 }

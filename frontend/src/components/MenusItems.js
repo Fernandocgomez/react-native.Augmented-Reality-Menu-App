@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Card, CardColumns, Jumbotron, Button } from 'react-bootstrap';
+import { Container, Card, CardColumns, Jumbotron } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 class MenusItems extends React.Component {
@@ -66,13 +66,4 @@ const btnMenu = {
 
 
 };
-
-const btnMenuAction = {
-    borderStyle: 'solid',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#black',
-    color: 'black',
-};
-
 

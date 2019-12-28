@@ -7,7 +7,8 @@ class MyMenus extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            addModalShow: false
+            addModalShow: false,
+            menus: []
         };
     }
 
@@ -15,41 +16,63 @@ class MyMenus extends React.Component {
         this.setState({ addModalShow: true })
     }
 
+    componentDidMount() {
+        fetch(`http://localhost:3000/restaurants/${localStorage.currentRestaurantId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.token}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    menus: data.menus
+                })
+            })
+    }
+
+    renderMenu = () => {
+        return this.state.menus.map(menu => {
+            return (
+                <Card style={{width: '18rem'}} classNAme="my-menus-child">
+                    <Card.Img variant="top" src={menu.img_url} />
+                    <Card.Body>
+                        <Card.Title>{menu.name}</Card.Title>
+                        <Card.Text>
+                            {menu.description}
+                        </Card.Text>
+                        <div className='flex-container'>
+                            <Link className='child' style={btnMenu}>Edit</Link>
+                            <Link className='child' style={btnMenu}>Delete</Link>
+                        </div>
+                        <div className='flex-container-2'>
+                            <Link className='child' style={btnMenuAction} onClick={this.showModal}>
+                                Add Item
+                            </Link>
+                        </div>
+                    </Card.Body>
+                </Card>
+            )
+        })
+    }
 
     render() {
 
         let modalClose = () => {
-
             this.setState({
                 addModalShow: false
             })
         }
 
+
         return (
             <>
-                <Container style={{ marginTop: '60px', marginBottom: '100px' }}>
+                <Container className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '100px'}}>
                     <CardColumns>
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="https://www.washingtonpost.com/resizer/7-gVChh4xgpm5Ykzg9e8aA5RzRA=/1484x0/arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/Y2ZKDBOKS45UFJANLPKL7PWOOU.jpg" />
-                            <Card.Body>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
-                            </Card.Text>
-                                <div className='flex-container'>
-                                    <Link className='child' style={btnMenu}>Edit</Link>
-                                    <Link className='child' style={btnMenu}>Delete</Link>
-                                </div>
-                                <div className='flex-container-2'>
-                                    <Link className='child' style={btnMenuAction} onClick={this.showModal}>
-                                        Add Item
-                                    </Link>
-                                </div>
-                            </Card.Body>
-                        </Card>
+                        {this.renderMenu()}
                     </CardColumns>
                 </Container>
+
                 <CreateItem
                     show={this.state.addModalShow}
                     onHide={modalClose}
