@@ -35,10 +35,11 @@ class SelectRestaurant extends Component {
     }
 
     tapOnCard = (restaurant) => {
+        console.log(restaurant)
         const { history } = this.props
         
         this.setState({
-            tapCard: restaurant.menu
+            tapCard: restaurant.menus
         }, () => { if (history) history.push("Menu", this.state.tapCard) })
     }
 
@@ -56,6 +57,9 @@ class SelectRestaurant extends Component {
                 </View>
             )
         }
+
+        console.log(this.props)
+        console.log(this.state.tapCard)
 
 
         return (

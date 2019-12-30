@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'react-bootstrap';
+
 
 
 class Footer extends React.Component {
@@ -11,10 +11,10 @@ class Footer extends React.Component {
   render() {
     return (
       <>
-        <div style={footer}>
+        <div className="footer-parent">
         
           
-        <Container style={{marginLeft: "480px", color: '#fff'}}><p>Copyright © 2020 AR Gourmet </p></Container>
+        <p className="footer-child">Copyright © 2020 AR Gourmet </p>
         
         
         </div>
@@ -24,19 +24,6 @@ class Footer extends React.Component {
 }
 
 export default Footer; 
-
-
-
-
-
-
-
-
-const footer = {
-  backgroundColor: '#595c5d', 
-  padding: '40px 40px', 
-  marginTop: '30px'
-};
 
 
 

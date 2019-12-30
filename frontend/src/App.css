@@ -56,6 +56,11 @@
   height: 40%; /* Or whatever */
   margin: auto;  /* Magic! */
   text-align: center;
+  border-style: 'solid';
+  border-radius: 4;
+  border-width: 1;
+  border-color: '#black';
+  color: 'black';
 }
 
 .child-menu-item {
@@ -64,6 +69,7 @@
   margin: auto;  /* Magic! */
   text-align: center;
   margin-top: 30px;
+  
 }
 
 .h1-menus-items {
@@ -72,4 +78,63 @@
 }
 .p-menus-items {
   text-align: center;
+}
+
+.flex-container-create-menu{
+  display: flex;
+  
+}
+
+.child-create-menu {
+  width: 80%;  
+  margin: auto;  
+}
+
+.input-file-create-menu {
+  margin-bottom: 25px;
+}
+
+.parent-create-item-input-file {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.footer-parent {
+  background-color: #595c5d;
+  padding: 40px 40px;
+  margin-top: 30px;
+  display: flex;
+
+  /* background-color: '#595c5d', 
+  padding: '40px 40px', 
+  margin-top: '30px' */
+}
+
+.footer-child{
+  width: 40%;  /* Or whatever */
+  height: 40%; /* Or whatever */
+  margin: auto;  /* Magic! */
+}
+
+
+.my-menus-parent{
+  display: flex; /* or inline-flex */
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.my-menus-child{
+  margin: auto;  /* Magic! */
+
+}
+
+.flex-container-signup{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.child-create-signup {
+  align-self: center;
 }
