@@ -1,15 +1,66 @@
 import React from 'react'
-import { Container, Card, CardColumns, Jumbotron } from 'react-bootstrap';
+import { Container, Card, CardColumns, Jumbotron, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 class MenusItems extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            allItems: [],
+            startersItems: [],
+            mainItems: [],
+            sidesItems: [],
+            dessertsItems: []
+        };
+
+
+    }
+
+    componentDidMount() {
+        fetch(`http://localhost:3000/menus/${this.props.history.location.state}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.token}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    allItems: data.items
+                })
+            })
     }
 
 
+    renderItems = () => {
+        return this.state.allItems.map(item => {
+            return (
+                <Card style={{ width: '18rem' }} classNAme="my-menus-child">
+                    <Card.Img variant="top" src={item.img_2D_url} />
+                    <Card.Body>
+                        <Card.Title>{item.itemName}</Card.Title>
+                        <Card.Text>
+                            {item.itemDescription}
+                        </Card.Text>
+                        <div className='flex-container'>
+                            <Link className='child' style={btnMenu}>Edit</Link>
+                            <Link className='child' style={btnMenu} >Delete</Link>
+                        </div>
+
+                    </Card.Body>
+                </Card>
+            )
+        })
+    }
+
+
+
+
     render() {
+
+        console.log(this.state)
+        console.log(this.props)
+
 
         return (
             <>
@@ -23,29 +74,16 @@ class MenusItems extends React.Component {
                         </p>
 
                         <div className='flex-container'>
-                                    <a className='child-menu-item' style={btnMenu}>Create New Item</a>
-                                    <a className='child-menu-item' style={btnMenu}>Starters</a>
-                                    <a className='child-menu-item' style={btnMenu}>Main Dishes</a>
-                                    <a className='child-menu-item' style={btnMenu}>Sides</a>
-                                    <a className='child-menu-item' style={btnMenu}>Desserts</a>
-                                    
-                                </div>
+                            <Link className='child-menu-item' style={btnMenu}>Create New Item</Link>
+                            <Link className='child-menu-item' style={btnMenu}>Starters</Link>
+                            <Link className='child-menu-item' style={btnMenu}>Main Dishes</Link>
+                            <Link className='child-menu-item' style={btnMenu}>Sides</Link>
+                            <Link className='child-menu-item' style={btnMenu}>Desserts</Link>
+
+                        </div>
                     </Jumbotron>
                     <CardColumns>
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="https://www.washingtonpost.com/resizer/7-gVChh4xgpm5Ykzg9e8aA5RzRA=/1484x0/arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/Y2ZKDBOKS45UFJANLPKL7PWOOU.jpg" />
-                            <Card.Body>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
-                            </Card.Text>
-                                <div className='flex-container'>
-                                    <Link className='child' style={btnMenu}>Edit</Link>
-                                    <Link className='child' style={btnMenu}>Delete</Link>
-                                </div>
-                            </Card.Body>
-                        </Card>
+                        {this.renderItems()}
                     </CardColumns>
                 </Container>
 

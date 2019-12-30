@@ -1,6 +1,6 @@
 class RestaurantsController < ApplicationController
 
-    skip_before_action :check_authentication, only: [:create]
+    skip_before_action :check_authentication, only: [:create, :index]
 
     def index
         restaurants = Restaurant.all

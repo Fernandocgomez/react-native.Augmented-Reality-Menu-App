@@ -22,7 +22,7 @@ class NavBar extends React.Component {
   logout = () => {
     localStorage.clear()
     this.props.logout()
-    // fix: when click on the logout button redirect to the login page
+
   }
 
   
@@ -36,7 +36,7 @@ class NavBar extends React.Component {
       })
     }
 
-    console.log(this)
+    console.log(this.props)
 
     return (
       <>
@@ -79,6 +79,7 @@ class NavBar extends React.Component {
         <CreateMenu
           show={this.state.addModalShow}
           onHide={modalClose}
+          
         />
       </>
     );

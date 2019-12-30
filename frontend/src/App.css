@@ -128,3 +128,13 @@
   margin: auto;  /* Magic! */
 
 }
+
+.flex-container-signup{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.child-create-signup {
+  align-self: center;
+}

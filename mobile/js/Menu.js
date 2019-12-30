@@ -14,10 +14,26 @@ class Menu extends Component {
    }
 
    componentDidMount() {
-      const startersArray = this.props.location.state.items.filter(item => item.category === "Starters")
-      const mainDishesArray = this.props.location.state.items.filter(item => item.category === "Main Dishes")
-      const sidesArray = this.props.location.state.items.filter(item => item.category === "Sides")
-      const dessertsArray = this.props.location.state.items.filter(item => item.category === "Desserts")
+      const startersArray = []
+      const mainDishesArray = []
+      const sidesArray = []
+      const dessertsArray = []
+
+      this.props.location.state.map(menu => menu.items.map(item => {if(item.category === "Main Dishes"){
+         mainDishesArray.push(item)
+      }}))
+      this.props.location.state.map(menu => menu.items.map(item => {if(item.category === "Starters"){
+         startersArray.push(item)
+      }}))
+      this.props.location.state.map(menu => menu.items.map(item => {if(item.category === "Sides"){
+         sidesArray.push(item)
+      }}))
+      this.props.location.state.map(menu => menu.items.map(item => {if(item.category === "Desserts"){
+         dessertsArray.push(item)
+      }}))
+
+
+      console.log(startersArray, mainDishesArray, sidesArray, dessertsArray)
 
       this.setState({
          starters: startersArray,
@@ -52,15 +68,18 @@ class Menu extends Component {
   }
 
    render() {
+
+      console.log(this.props)
+
       
 
-      if (this.state.starters.length === 0 || this.state.mainDishes.length === 0 || this.state.sides.length === 0 || this.state.desserts.length === 0) {
-         return (
-            <View style={styles.container}>
-               <ActivityIndicator size='large' />
-            </View>
-         )
-      }
+      // if (this.state.starters.length === 0 || this.state.mainDishes.length === 0 || this.state.sides.length === 0 || this.state.desserts.length === 0) {
+      //    return (
+      //       <View style={styles.container}>
+      //          <ActivityIndicator size='large' />
+      //       </View>
+      //    )
+      // }
 
       return (
          

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button, Col, Container } from 'react-bootstrap';
+import { Form, Button, Col, Container, Spinner } from 'react-bootstrap';
 import S3 from 'aws-s3';
 let UsaStates = require('./UsaStates.js');
 let amazonS3Key = require('./AmazonKey.js')
@@ -9,7 +9,8 @@ class SignUpForm extends React.Component {
     super(props);
     this.state = {
       name: '',
-      buttonNoClickable: true
+      buttonNoClickable: true,
+      spinnerOn: false
     };
   }
 
@@ -18,6 +19,9 @@ class SignUpForm extends React.Component {
   }
 
   uploadToAmazonS3 = (e) => {
+    this.setState({
+      spinnerOn: true
+    })
     const config = {
       bucketName: 'armenu',
       dirName: `logos/${this.state.name}`,
@@ -30,11 +34,14 @@ class SignUpForm extends React.Component {
     const newFileName = `${this.state.name}_logo`;
 
     ReactS3Client.uploadFile(e.target.files[0], newFileName)
-      .then(data => this.setState({logo_url: data.location}, this.setState({
-        buttonNoClickable: false
-      })))
+      .then(data => this.setState({ logo_url: data.location }, this.setState({
+        spinnerOn: false
+      }),
+        this.setState({
+          buttonNoClickable: false
+        })))
       .catch(err => console.error(err))
-      
+
   }
 
   handleChange = (e) => {
@@ -46,12 +53,12 @@ class SignUpForm extends React.Component {
   signUp = (e) => {
     e.preventDefault()
     fetch('http://localhost:3000/restaurants', {
-      method: 'POST', 
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: this.state.name, 
+        name: this.state.name,
         email: this.state.email,
         password: this.state.password,
         address1: this.state.address1,
@@ -61,10 +68,10 @@ class SignUpForm extends React.Component {
         logo_url: this.state.logo_url,
       })
     })
-    .then(res => res.json())
-    .then(console.log)
+      .then(res => res.json())
+      .then(console.log)
     this.props.history.history.push('/login')
-    
+
 
   }
 
@@ -127,20 +134,32 @@ class SignUpForm extends React.Component {
               />
             </Form.Group>
 
-            
-           
+            <div className="flex-container-signup">
+            {this.state.spinnerOn ? (
+              <div className="child-create-signup">
+                <Spinner animation="border" role="status" variant="info">
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
+              </div>
+            ) : (
+                <>
+
+                </>
+              )}
+            </div>
+
 
 
             {this.state.buttonNoClickable ? (
               <>
                 <Button variant="primary" size="lg" block type="submit" style={{ width: '100%', backgroundColor: '#26afd1', borderColor: '#26afd1', fontSize: '22px' }} disabled>
-              Register
+                  Register
             </Button>
               </>
             ) : (
                 <>
-                 <Button variant="primary" size="lg" block type="submit" style={{ width: '100%', backgroundColor: '#26afd1', borderColor: '#26afd1', fontSize: '22px' }}>
-              Register
+                  <Button variant="primary" size="lg" block type="submit" style={{ width: '100%', backgroundColor: '#26afd1', borderColor: '#26afd1', fontSize: '22px' }}>
+                    Register
             </Button>
                 </>
               )}

@@ -8,7 +8,10 @@ class MyMenus extends React.Component {
         super(props);
         this.state = {
             addModalShow: false,
-            menus: []
+            menus: [], 
+            menuId: null, 
+            menuName: null, 
+            
         };
     }
 
@@ -31,26 +34,23 @@ class MyMenus extends React.Component {
             })
     }
 
-    updateMenus = () => {
-        
-    }
-
+    
     renderMenus = () => {
         return this.state.menus.map(menu => {
             return (
                 <Card style={{width: '18rem'}} classNAme="my-menus-child">
                     <Card.Img variant="top" src={menu.img_url} />
                     <Card.Body>
-                        <Card.Title>{menu.name}</Card.Title>
+                        <Card.Title><Link onClick={() => {this.redirectToItem(menu)}}>{menu.name}</Link></Card.Title>
                         <Card.Text>
                             {menu.description}
                         </Card.Text>
                         <div className='flex-container'>
                             <Link className='child' style={btnMenu}>Edit</Link>
-                            <Link className='child' style={btnMenu}>Delete</Link>
+                            <Link className='child' style={btnMenu} onClick={() => {this.deleteMenu(menu)}}>Delete</Link>
                         </div>
                         <div className='flex-container-2'>
-                            <Link className='child' style={btnMenuAction} onClick={this.showModal}>
+                            <Link className='child' style={btnMenuAction} onClick={() => {this.openCreateItemForm(menu)}}>
                                 Add Item
                             </Link>
                         </div>
@@ -60,7 +60,42 @@ class MyMenus extends React.Component {
         })
     }
 
+    redirectToItem = (menu) => {
+        this.setState({
+            menuId: menu.id
+        }, () => {this.props.history.history.push('/my-menus/items', this.state.menuId)})
+        
+        
+    }
+
+    deleteMenu = (menu) => {
+
+        fetch(`http://localhost:3000/menus/${menu.id}`, {
+            method: 'DELETE', 
+            headers: {
+                Authorization: `Bearer ${localStorage.token}`
+            }
+        },
+        this.setState({
+            menus: this.state.menus.filter(singleMenu => singleMenu.id !== menu.id)
+        })
+        )
+    }
+
+    openCreateItemForm = (menu) => {
+        this.showModal()
+        this.setState({
+            menuId: menu.id,
+            menuName: menu.name
+        })
+        
+
+    }
+    
+
     render() {
+
+        
 
         let modalClose = () => {
             this.setState({
@@ -68,7 +103,8 @@ class MyMenus extends React.Component {
             })
         }
 
-
+        console.log(this.props)
+        console.log(this.state)
         return (
             <>
                 <Container className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '100px'}}>
@@ -80,6 +116,9 @@ class MyMenus extends React.Component {
                 <CreateItem
                     show={this.state.addModalShow}
                     onHide={modalClose}
+                    menuId={this.state.menuId}
+                    menuName={this.state.menuName}
+                    history={this.props.history}
                 />
             </>
         );
