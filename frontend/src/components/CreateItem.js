@@ -71,7 +71,7 @@ class CreateItem extends Component {
 
         const ReactS3Client = new S3(config);
         const newFileName = `texture`;
-
+        console.log(e.target.files[0])
         ReactS3Client.uploadFile(e.target.files[0], newFileName)
             .then(data => this.setState({ texture_url: data.location }, this.setState({
                 spinnerOntexture_url: false
@@ -87,15 +87,22 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
+            'Content-Type': 'text/plain',
             dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.category}/${this.state.itemName}`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
-            secretAccessKey: `${amazonS3Key[1]}`
+            secretAccessKey: `${amazonS3Key[1]}`, 
+            
         }
 
         const ReactS3Client = new S3(config);
         const newFileName = `materials.mtl`;
 
+        let data = e.target.files[0]
+        data.type = 'Text/Plain'
+
+        console.log(data)
+        console.log(data.type)
         ReactS3Client.uploadFile(e.target.files[0], newFileName)
             .then(data => this.setState({ mtl_url: data.location }, this.setState({
                 spinnerOnmtl_url: false
@@ -116,11 +123,11 @@ class CreateItem extends Component {
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
             secretAccessKey: `${amazonS3Key[1]}`,
-            ContentType: 'text/plain'
+            
         }
 
         const ReactS3Client = new S3(config);
-        const newFileName = `module.obj`;
+        const newFileName = `module`;
 
         ReactS3Client.uploadFile(e.target.files[0], newFileName)
             .then(data => this.setState({ obj_url: data.location }, this.setState({
