@@ -4,7 +4,7 @@ import S3 from 'aws-s3-pro';
 let amazonS3Key = require('./AmazonKey.js')
 
 
-class CreateItem extends Component {
+class CreateNewItemForMyItems extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,7 +35,7 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
-            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.itemName}/img2D`,
+            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${localStorage.menuId}/${this.state.itemName}/img2D`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
             secretAccessKey: `${amazonS3Key[1]}`
@@ -62,7 +62,7 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
-            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.category}/${this.state.itemName}`,
+            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${localStorage.menuId}/${this.state.category}/${this.state.itemName}`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
             secretAccessKey: `${amazonS3Key[1]}`
@@ -86,7 +86,7 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
-            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.category}/${this.state.itemName}`,
+            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${localStorage.menuId}/${this.state.category}/${this.state.itemName}`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
             secretAccessKey: `${amazonS3Key[1]}`, 
@@ -112,7 +112,7 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
-            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.category}/${this.state.itemName}`,
+            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${localStorage.menuId}/${this.state.category}/${this.state.itemName}`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
             secretAccessKey: `${amazonS3Key[1]}`,
@@ -154,16 +154,14 @@ class CreateItem extends Component {
                 mtl_url: this.state.mtl_url, 
                 category: this.state.category, 
                 img_2D_url: this.state.img_2D_url, 
-                menu_id: this.props.menuId
+                menu_id: localStorage.menuId
             })
         })
             .then(res => res.json())
             .then(newMenu => {
-                console.log(newMenu)
-            }, this.props.history.history.push('/my-menus/items', this.props.menuId), () => {
-                window.location.reload(false);
+                this.props.updateAllItems()
             })
-
+            
 
 
     }
@@ -353,4 +351,4 @@ class CreateItem extends Component {
     }
 }
 
-export default CreateItem;
+export default CreateNewItemForMyItems;

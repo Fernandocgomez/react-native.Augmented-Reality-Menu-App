@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container, Card, CardColumns, Jumbotron, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import CreateNewItemForMyItems from './CreateNewItemForMyItems';
 
 class MenusItems extends React.Component {
     constructor(props) {
@@ -10,25 +11,233 @@ class MenusItems extends React.Component {
             startersItems: [],
             mainItems: [],
             sidesItems: [],
-            dessertsItems: []
+            dessertsItems: [],
+            addModalShow: false,
+            allItemsForSortAllItems: []
+
+
         };
 
 
     }
 
-    componentDidMount() {
-        fetch(`http://localhost:3000/menus/${this.props.history.location.state}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.token}`
-            }
+    sortMainItems = () => {
+        this.setState({
+            allItems: this.state.mainItems
         })
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    allItems: data.items
-                })
+    }
+
+    sortStartersItems = () => {
+        this.setState({
+            allItems: this.state.startersItems
+        })
+    }
+
+    sortSidesItems = () => {
+        this.setState({
+            allItems: this.state.sidesItems
+        })
+    }
+
+    sortDessertsItems = () => {
+        this.setState({
+            allItems: this.state.dessertsItems
+        })
+    }
+
+    sortAllItems = () => {
+        if (this.props.history.location.state == undefined) {
+            console.log(`http://localhost:3000/menus/${localStorage.menuId}`)
+
+            fetch(`http://localhost:3000/menus/${localStorage.menuId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.token}`
+                }
             })
+                .then(res => res.json())
+                .then(data => {
+                    let starters = []
+                    let mainDishes = []
+                    let sides = []
+                    let desserts = []
+
+
+                    data.items.map(item => {
+
+                        if (item.category == "Starters") {
+                            starters.push(item)
+                        }
+                        if (item.category == "Main Dishes") {
+                            mainDishes.push(item)
+                        }
+                        if (item.category == "Sides") {
+                            sides.push(item)
+                        }
+                        if (item.category == "Desserts") {
+                            desserts.push(item)
+                        }
+
+                    })
+
+                    this.setState({
+                        allItems: data.items,
+                        startersItems: starters,
+                        mainItems: mainDishes,
+                        sidesItems: sides,
+                        dessertsItems: desserts, 
+                        allItemsForSortAllItems: data.items,
+
+                    })
+                })
+        } else {
+
+
+            fetch(`http://localhost:3000/menus/${this.props.history.location.state}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.token}`
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    let starters = []
+                    let mainDishes = []
+                    let sides = []
+                    let desserts = []
+
+
+                    data.items.map(item => {
+
+                        if (item.category == "Starters") {
+                            starters.push(item)
+                        }
+                        if (item.category == "Main Dishes") {
+                            mainDishes.push(item)
+                        }
+                        if (item.category == "Sides") {
+                            sides.push(item)
+                        }
+                        if (item.category == "Desserts") {
+                            desserts.push(item)
+                        }
+
+                    })
+
+
+                    this.setState({
+                        allItems: data.items,
+                        startersItems: starters,
+                        mainItems: mainDishes,
+                        sidesItems: sides,
+                        dessertsItems: desserts
+
+                    })
+                })
+        }
+        
+        this.setState({
+            allItems: this.state.allItemsForSortAllItems
+        })
+    }
+
+    showModal = () => {
+        this.setState({ addModalShow: true })
+    }
+
+    componentDidMount = () => {
+
+        if (this.props.history.location.state == undefined) {
+            console.log(`http://localhost:3000/menus/${localStorage.menuId}`)
+
+            fetch(`http://localhost:3000/menus/${localStorage.menuId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.token}`
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    let starters = []
+                    let mainDishes = []
+                    let sides = []
+                    let desserts = []
+
+
+                    data.items.map(item => {
+
+                        if (item.category == "Starters") {
+                            starters.push(item)
+                        }
+                        if (item.category == "Main Dishes") {
+                            mainDishes.push(item)
+                        }
+                        if (item.category == "Sides") {
+                            sides.push(item)
+                        }
+                        if (item.category == "Desserts") {
+                            desserts.push(item)
+                        }
+
+                    })
+
+                    this.setState({
+                        allItems: data.items,
+                        startersItems: starters,
+                        mainItems: mainDishes,
+                        sidesItems: sides,
+                        dessertsItems: desserts, 
+                        allItemsForSortAllItems: data.items,
+
+                    })
+                })
+        } else {
+
+
+            fetch(`http://localhost:3000/menus/${this.props.history.location.state}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.token}`
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    let starters = []
+                    let mainDishes = []
+                    let sides = []
+                    let desserts = []
+
+
+                    data.items.map(item => {
+
+                        if (item.category == "Starters") {
+                            starters.push(item)
+                        }
+                        if (item.category == "Main Dishes") {
+                            mainDishes.push(item)
+                        }
+                        if (item.category == "Sides") {
+                            sides.push(item)
+                        }
+                        if (item.category == "Desserts") {
+                            desserts.push(item)
+                        }
+
+                    })
+
+
+                    this.setState({
+                        allItems: data.items,
+                        startersItems: starters,
+                        mainItems: mainDishes,
+                        sidesItems: sides,
+                        dessertsItems: desserts
+
+                    })
+                })
+        }
+
+
     }
 
 
@@ -56,10 +265,33 @@ class MenusItems extends React.Component {
 
 
 
+
+
+
+
+
     render() {
 
         console.log(this.state)
         console.log(this.props)
+
+        let modalClose = () => {
+            this.setState({
+                addModalShow: false
+            })
+        }
+
+
+
+        // if (this.state.allItems == false ) {
+        //     return(
+
+        //     <Spinner animation="border" role="status">
+        //         <span className="sr-only">Loading...</span>
+        //     </Spinner>
+
+        //     )
+        // }
 
 
         return (
@@ -74,18 +306,38 @@ class MenusItems extends React.Component {
                         </p>
 
                         <div className='flex-container'>
-                            <Link className='child-menu-item' style={btnMenu}>Create New Item</Link>
-                            <Link className='child-menu-item' style={btnMenu}>Starters</Link>
-                            <Link className='child-menu-item' style={btnMenu}>Main Dishes</Link>
-                            <Link className='child-menu-item' style={btnMenu}>Sides</Link>
-                            <Link className='child-menu-item' style={btnMenu}>Desserts</Link>
+                            <Link className='child-menu-item' style={btnMenu} onClick={this.showModal}>Create New Item</Link>
+                            <Link className='child-menu-item' style={btnMenu} onClick={this.sortAllItems} >Show All</Link>
+                            <Link className='child-menu-item' style={btnMenu} onClick={this.sortStartersItems} >Starters</Link>
+                            <Link className='child-menu-item' style={btnMenu} onClick={this.sortMainItems} >Main Dishes</Link>
+                            <Link className='child-menu-item' style={btnMenu} onClick={this.sortSidesItems} >Sides</Link>
+                            <Link className='child-menu-item' style={btnMenu} onClick={this.sortDessertsItems} >Desserts</Link>
 
                         </div>
                     </Jumbotron>
                     <CardColumns>
-                        {this.renderItems()}
+                        {this.state.allItems ? (
+                            <>
+                                {this.renderItems()}
+                            </>
+                        ) : (
+                                <>
+                                    <Spinner animation="border" role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </Spinner>
+                                </>
+                            )}
+
                     </CardColumns>
                 </Container>
+
+                <CreateNewItemForMyItems
+                    show={this.state.addModalShow}
+                    onHide={modalClose}
+                    history={this.props.history}
+                    updateAllItems={this.componentDidMount}
+
+                />
 
             </>
         );

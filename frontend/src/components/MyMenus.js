@@ -2,21 +2,27 @@ import React from 'react'
 import { Container, Card, CardColumns } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CreateItem from './CreateItem';
+import EditMenu from './EditMenu';
 
 class MyMenus extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             addModalShow: false,
+            addModalShowEdit: false,
             menus: [], 
             menuId: null, 
-            menuName: null, 
+            menuObject: null
             
         };
     }
 
     showModal = () => {
         this.setState({ addModalShow: true })
+    }
+
+    showModalEdit = () => {
+        this.setState({ addModalShowEdit: true })
     }
 
     componentDidMount() {
@@ -46,7 +52,7 @@ class MyMenus extends React.Component {
                             {menu.description}
                         </Card.Text>
                         <div className='flex-container'>
-                            <Link className='child' style={btnMenu}>Edit</Link>
+                            <Link className='child' style={btnMenu} onClick={() => {this.openEditMenuForm(menu)}}>Edit</Link>
                             <Link className='child' style={btnMenu} onClick={() => {this.deleteMenu(menu)}}>Delete</Link>
                         </div>
                         <div className='flex-container-2'>
@@ -61,6 +67,8 @@ class MyMenus extends React.Component {
     }
 
     redirectToItem = (menu) => {
+        localStorage.setItem("menuId", menu.id)
+
         this.setState({
             menuId: menu.id
         }, () => {this.props.history.history.push('/my-menus/items', this.state.menuId)})
@@ -88,10 +96,27 @@ class MyMenus extends React.Component {
             menuId: menu.id,
             menuName: menu.name
         })
-        
+    }
 
+    openEditMenuForm = (menu) => {
+        console.log(menu)
+        this.showModalEdit()
+        this.setState({
+            menuId: menu.id,
+            menuObject: menu, 
+        })
+        
     }
     
+    newMenuUpdated = (object) => {
+        let newArrayMenus = this.state.menus.filter(menu=> menu.id != object.id)
+        newArrayMenus.push(object)
+        this.setState({
+            menus: newArrayMenus
+        })
+
+
+    }
 
     render() {
 
@@ -103,8 +128,14 @@ class MyMenus extends React.Component {
             })
         }
 
-        console.log(this.props)
-        console.log(this.state)
+        let modalCloseEdit = () => {
+            this.setState({
+                addModalShowEdit: false
+            })
+        }
+
+
+    
         return (
             <>
                 <Container className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '100px'}}>
@@ -116,10 +147,21 @@ class MyMenus extends React.Component {
                 <CreateItem
                     show={this.state.addModalShow}
                     onHide={modalClose}
-                    menuId={this.state.menuId}
+                    menuId={this.state.menuId} 
                     menuName={this.state.menuName}
                     history={this.props.history}
                 />
+                <EditMenu
+                    show={this.state.addModalShowEdit}
+                    onHide={modalCloseEdit}
+                    menuId={this.state.menuId}
+                    history={this.props.history}
+                    menuObject={this.state.menuObject}
+                    menusArray={this.state.menus}
+                    newMenuUpdated={this.newMenuUpdated}
+                />
+
+
             </>
         );
     }

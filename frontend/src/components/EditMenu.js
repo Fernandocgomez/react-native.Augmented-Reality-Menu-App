@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Button, Form, Spinner} from 'react-bootstrap';
+import { Modal, Button, Form, Spinner, Image} from 'react-bootstrap';
 import S3 from 'aws-s3-pro';
 let amazonS3Key = require('./AmazonKey.js')
 
 
-class CreateMenu extends Component {
+class EditMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,10 +45,10 @@ class CreateMenu extends Component {
 
   }
 
-  createMenu = (e) => {
+  editMenu = (e) => {
     e.preventDefault()
-    fetch('http://localhost:3000/menus', {
-      method: 'POST',
+    fetch(`http://localhost:3000/menus/${this.props.menuObject.id}`, {
+      method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${localStorage.token}`,
         'Content-Type': 'application/json',
@@ -61,10 +61,9 @@ class CreateMenu extends Component {
       })
     })
       .then(res => res.json())
-      .then(newMenu => {
-        console.log(newMenu)
-        localStorage.setItem("menuId", newMenu.menu.id)
-        window.location.reload(false);
+      .then(newMenuEdit => { 
+        this.props.newMenuUpdated(newMenuEdit.menu)
+        
       })
 
   }
@@ -73,6 +72,7 @@ class CreateMenu extends Component {
 
   render() {
     console.log(this.props)
+
 
     return (
       <Modal
@@ -83,23 +83,60 @@ class CreateMenu extends Component {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            Create Menu
+            Edit Menu
         </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className='container'>
-            <Form onSubmit={(e) => this.createMenu(e)}>
+            <Form onSubmit={(e) => this.editMenu(e)}>
               <Form.Group >
                 <Form.Label>Menu Name</Form.Label>
-                <Form.Control onChange={(e) => this.handleChange(e)} type="text" placeholder="Enter menu name" name="name" />
+
+                { this.props.menuObject
+                 ? (
+                  <>
+                      <Form.Control onChange={(e) => this.handleChange(e)} type="text" placeholder={this.props.menuObject.name} name="name"/>
+                  </>
+                ) : (
+                    <>
+                     
+                    </>
+                  )}
+                
               </Form.Group>
 
               <Form.Group >
                 <Form.Label>Menu Description</Form.Label>
-                <Form.Control onChange={(e) => this.handleChange(e)} type="text" as="textarea" rows="3" placeholder="Enter item description" name="description" />
+
+                { this.props.menuObject
+                 ? (
+                  <>
+                    <Form.Control onChange={(e) => this.handleChange(e)} type="text" as="textarea" rows="3" placeholder={this.props.menuObject.description} name="description" />
+                  </>
+                ) : (
+                    <>
+                     
+                    </>
+                  )}
+
+                
               </Form.Group>
 
               <Form.Label>Menu Image</Form.Label>
+              
+
+
+              { this.props.menuObject
+                 ? (
+                  <>
+                    <Image src={this.props.menuObject.img_url} fluid width="300px" height="300px"/>
+                  </>
+                ) : (
+                    <>
+                     
+                    </>
+                  )}
+
               <div>
                 <input
                   type="file"
@@ -131,13 +168,13 @@ class CreateMenu extends Component {
                 this.state.img_url !== false ? (
                   <>
                       <Button variant="primary" type="submit" className='child-create-menu' onClick={this.props.onHide}>
-                        Create New Menu
+                        Update Menu
                       </Button>
                   </>
                 ) : (
                     <>
                       <Button variant="primary" type="submit" className='child-create-menu' disabled>
-                      Fill Out The Information To Create A New Menu
+                      Edit The Information To Update Menu
                       </Button>
                     </>
                   )}
@@ -156,4 +193,4 @@ class CreateMenu extends Component {
   }
 }
 
-export default CreateMenu;
+export default EditMenu;

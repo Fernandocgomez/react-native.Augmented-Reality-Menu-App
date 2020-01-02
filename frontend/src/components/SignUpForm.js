@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Button, Col, Container, Spinner } from 'react-bootstrap';
-import S3 from 'aws-s3';
+import S3 from 'aws-s3-pro';
 let UsaStates = require('./UsaStates.js');
 let amazonS3Key = require('./AmazonKey.js')
 
