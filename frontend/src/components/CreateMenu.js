@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form, Spinner} from 'react-bootstrap';
-import S3 from 'aws-s3';
+import S3 from 'aws-s3-pro';
 let amazonS3Key = require('./AmazonKey.js')
 
 
@@ -63,6 +63,7 @@ class CreateMenu extends Component {
       .then(res => res.json())
       .then(newMenu => {
         console.log(newMenu)
+        localStorage.setItem("menuId", newMenu.menu.id)
         window.location.reload(false);
       })
 

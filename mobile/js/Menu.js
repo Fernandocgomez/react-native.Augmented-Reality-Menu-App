@@ -71,16 +71,6 @@ class Menu extends Component {
 
       console.log(this.props)
 
-      
-
-      // if (this.state.starters.length === 0 || this.state.mainDishes.length === 0 || this.state.sides.length === 0 || this.state.desserts.length === 0) {
-      //    return (
-      //       <View style={styles.container}>
-      //          <ActivityIndicator size='large' />
-      //       </View>
-      //    )
-      // }
-
       return (
          
          <View style={styles.container}>

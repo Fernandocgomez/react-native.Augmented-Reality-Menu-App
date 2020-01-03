@@ -1,3 +1,3 @@
-let amazonS3Key = ['AKIAIGXWKATWUGKBNNGQ', 'p3j0ODmcg0ONfeRrHJjzJwNFvlSs4+vnF4NcW+kr']
+let amazonS3Key = ['AKIAJWWE24Y4CU5G4XOA', 'XY/qqCbtCtEYm38MGhzZOt6T5vtgeTjChQWz2zUA']
 
 module.exports = amazonS3Key;

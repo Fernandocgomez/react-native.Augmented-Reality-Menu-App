@@ -12,8 +12,10 @@ import MyMenus from './components/MyMenus';
 import './App.css';
 import MenusItems from './components/MenusItems';
 import CreateMenu from './components/CreateMenu';
-import S3 from 'aws-s3';
+import S3 from 'aws-s3-pro';
 import CreateItem from './components/CreateItem';
+import EditMenu from './components/EditMenu';
+import CreateNewItemForMyItems from './components/CreateNewItemForMyItems';
 let amazonS3Key = require('./components/AmazonKey.js')
 
 
@@ -54,6 +56,10 @@ class App extends React.Component {
     return (
 
       
+
+     
+
+      
       <BrowserRouter>
           
           <NavBar showNavLinks={this.state.showNavLinks} logout={this.logout} />
@@ -64,8 +70,14 @@ class App extends React.Component {
             <Route exact path='/my-menus/items' component={(history) => <MenusItems  history={history}/>} />
             <Route exact path='/create-menu' component={(history) => <CreateMenu history={history}/>} />   
             <Route exact path='/create-item' component={(history) => <CreateItem history={history}/>} />   
+            <Route exact path='/edit-item' component={(history) => <EditMenu history={history}/>} />   
+
+
           </Switch>
+
+
           <Footer />
+
       </BrowserRouter>
       
 

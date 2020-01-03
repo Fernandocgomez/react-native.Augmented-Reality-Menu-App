@@ -20,6 +20,13 @@ class MenusController < ApplicationController
         end
     end
 
+    def update
+        menu = Menu.find(params[:id])
+        menu.update(menu_params)
+        render json: {menu: MenuSerializer.new(menu), message: "menu was edited"}
+
+    end
+
 
     def destroy
         menu = Menu.find(params[:id])

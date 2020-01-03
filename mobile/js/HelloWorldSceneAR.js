@@ -5,7 +5,6 @@ import {
   ViroARScene,
   Viro3DObject,
   ViroAmbientLight,
-  ViroSpotLight,
   ViroAnimations,
 
 
@@ -34,9 +33,11 @@ export default class HelloWorldSceneAR extends Component {
 
       <ViroARScene>
 
-        <ViroAmbientLight color={"#FFFFFF"} intensity={800} />
-        <ViroSpotLight innerAngle={5} outerAngle={90} direction={[0, -1, -.2]}
-          position={[-.04, -2, -4.5]} color="#ffffff" castsShadow={true} />
+        <ViroAmbientLight color={"#FFFFFF"} intensity={1000} />
+        {/* <ViroSpotLight innerAngle={5} outerAngle={90} direction={[0, -1, -.2]}
+          position={[-.04, -2, -4.5]} color="#ffffff" castsShadow={true} /> */}
+
+
 
 
         <Viro3DObject animation={{ name: "rotate", run: true, loop: true }}
@@ -52,20 +53,7 @@ export default class HelloWorldSceneAR extends Component {
           type="OBJ" 
           onClick={this.tap}/>
 
-        {/* <Viro3DObject source={require('./res/model-1.glb')}
-          position={[0.0, 0, 0]}
-          scale={[0.1, 0.1, 0.1]}
-          type="GLB"
-        /> */}
 
-        {/* <Viro3DObject source={require('./res/model.obj')}
-          resources={[require('./res/materials.mtl'),
-          require('./res/texture.jpg'),
-          ]}
-          position={[-.04, -2, -4.5]}
-          scale={[.025, .025, .025]}
-          type="OBJ" 
-        /> */}
 
 
 
@@ -76,22 +64,13 @@ export default class HelloWorldSceneAR extends Component {
 
 }
 
-var styles = StyleSheet.create({
-  helloWorldTextStyle: {
-    fontFamily: 'Arial',
-    fontSize: 30,
-    color: '#ffffff',
-    textAlignVertical: 'center',
-    textAlign: 'center',
-  },
-});
 
 ViroAnimations.registerAnimations({
   rotate: {
     properties: {
       rotateY: "+=90"
     },
-    duration: 900, //.25 seconds
+    duration: 1600, //.25 seconds
   },
 });
 

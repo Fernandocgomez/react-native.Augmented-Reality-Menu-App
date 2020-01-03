@@ -15,6 +15,13 @@ class ItemsController < ApplicationController
         item.destroy
     end
 
+    def update
+        item = Item.find(params[:id])
+        item.update(item_params)
+        render json: {item: ItemSerializer.new(item), message: "item was edited"}
+
+    end
+
     private 
 
     def item_params

@@ -14,7 +14,7 @@ class Footer extends React.Component {
         <div className="footer-parent">
         
           
-        <p className="footer-child">Copyright © 2020 AR Gourmet </p>
+    
         
         
         </div>
