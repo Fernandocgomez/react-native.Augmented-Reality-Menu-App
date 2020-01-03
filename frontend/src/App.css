@@ -106,28 +106,16 @@
   margin-top: 30px;
   display: flex;
 
-  /* background-color: '#595c5d', 
-  padding: '40px 40px', 
-  margin-top: '30px' */
-}
 
-.footer-child{
-  width: 40%;  /* Or whatever */
-  height: 40%; /* Or whatever */
-  margin: auto;  /* Magic! */
-}
 
+}
 
 .my-menus-parent{
   display: flex; /* or inline-flex */
-  flex-flow: row wrap;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-.my-menus-child{
-  margin: auto;  /* Magic! */
-
-}
 
 .flex-container-signup{
   display: flex;
@@ -137,4 +125,32 @@
 
 .child-create-signup {
   align-self: center;
+
 }
+
+
+.parent-img-edit-menu{
+  display: flex;
+  justify-content: center;
+}
+
+.message-my-menus-items{
+  width: 80%;
+  margin: auto;
+  margin-top: 11%;
+  margin-bottom: 12%;
+}
+.message-my-menus{
+  width: 80%;
+  margin: auto;
+  margin-top: 21%;
+  margin-bottom: 20%;
+}
+.message-my-menus-content{
+  text-align: center;
+}
+
+
+
+
+

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Form, Spinner, Image} from 'react-bootstrap';
+import { Modal, Button, Form, Spinner, Image } from 'react-bootstrap';
 import S3 from 'aws-s3-pro';
 let amazonS3Key = require('./AmazonKey.js')
 
@@ -10,8 +10,8 @@ class EditMenu extends Component {
     this.state = {
       name: false,
       buttonNoClickable: true,
-      spinnerOn: false, 
-      description: false, 
+      spinnerOn: false,
+      description: false,
       img_url: false
     };
   }
@@ -61,9 +61,9 @@ class EditMenu extends Component {
       })
     })
       .then(res => res.json())
-      .then(newMenuEdit => { 
+      .then(newMenuEdit => {
         this.props.newMenuUpdated(newMenuEdit.menu)
-        
+
       })
 
   }
@@ -92,50 +92,55 @@ class EditMenu extends Component {
               <Form.Group >
                 <Form.Label>Menu Name</Form.Label>
 
-                { this.props.menuObject
-                 ? (
-                  <>
-                      <Form.Control onChange={(e) => this.handleChange(e)} type="text" placeholder={this.props.menuObject.name} name="name"/>
-                  </>
-                ) : (
+                {this.props.menuObject
+                  ? (
                     <>
-                     
+                      <Form.Control onChange={(e) => this.handleChange(e)} type="text" placeholder={this.props.menuObject.name} name="name" />
+                    </>
+                  ) : (
+                    <>
+
                     </>
                   )}
-                
+
               </Form.Group>
 
               <Form.Group >
                 <Form.Label>Menu Description</Form.Label>
 
-                { this.props.menuObject
-                 ? (
-                  <>
-                    <Form.Control onChange={(e) => this.handleChange(e)} type="text" as="textarea" rows="3" placeholder={this.props.menuObject.description} name="description" />
-                  </>
-                ) : (
+                {this.props.menuObject
+                  ? (
                     <>
-                     
+                      <Form.Control onChange={(e) => this.handleChange(e)} type="text" as="textarea" rows="3" placeholder={this.props.menuObject.description} name="description" />
+                    </>
+                  ) : (
+                    <>
+
                     </>
                   )}
 
-                
+
               </Form.Group>
 
-              <Form.Label>Menu Image</Form.Label>
-              
+              <Form.Label>Current Image</Form.Label>
 
 
-              { this.props.menuObject
-                 ? (
-                  <>
-                    <Image src={this.props.menuObject.img_url} fluid width="300px" height="300px"/>
-                  </>
+
+              {this.props.menuObject
+                ? (
+
+                  <div className="parent-img-edit-menu">
+                    
+                    <div className="child-img-edit-menu">
+                      <Image src={this.props.menuObject.img_url} fluid width="250px" height="250px" />
+                    </div>
+                  </div>
+
                 ) : (
-                    <>
-                     
-                    </>
-                  )}
+                  <>
+
+                  </>
+                )}
 
               <div>
                 <input
@@ -147,37 +152,37 @@ class EditMenu extends Component {
               </div>
 
               <div className="flex-container-signup">
-            {this.state.spinnerOn ? (
-              <div className="child-create-signup">
-                <Spinner animation="border" role="status" variant="primary">
-                  <span className="sr-only">Loading...</span>
-                </Spinner>
-              </div>
-            ) : (
-                <>
+                {this.state.spinnerOn ? (
+                  <div className="child-create-signup">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="sr-only">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                    <>
 
-                </>
-              )}
-            </div>
+                    </>
+                  )}
+              </div>
 
               <div className="flex-container-create-menu">
 
                 {
-                this.state.name !== false && 
-                this.state.description !== false &&
-                this.state.img_url !== false ? (
-                  <>
-                      <Button variant="primary" type="submit" className='child-create-menu' onClick={this.props.onHide}>
-                        Update Menu
+                  this.state.name !== false &&
+                    this.state.description !== false &&
+                    this.state.img_url !== false ? (
+                      <>
+                        <Button variant="primary" type="submit" className='child-create-menu' onClick={this.props.onHide}>
+                          Update Menu
                       </Button>
-                  </>
-                ) : (
-                    <>
-                      <Button variant="primary" type="submit" className='child-create-menu' disabled>
-                      Edit The Information To Update Menu
+                      </>
+                    ) : (
+                      <>
+                        <Button variant="primary" type="submit" className='child-create-menu' disabled>
+                          Edit The Information To Update This Menu
                       </Button>
-                    </>
-                  )}
+                      </>
+                    )}
 
               </div>
 

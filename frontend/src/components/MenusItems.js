@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Card, CardColumns, Jumbotron, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CreateNewItemForMyItems from './CreateNewItemForMyItems';
+import EditItem from './EditItem';
 
 class MenusItems extends React.Component {
     constructor(props) {
@@ -13,12 +14,61 @@ class MenusItems extends React.Component {
             sidesItems: [],
             dessertsItems: [],
             addModalShow: false,
-            allItemsForSortAllItems: []
+            allItemsForSortAllItems: [],
+            addModalShowEdit: false,
+            objectItem: false
+
 
 
         };
 
 
+    }
+
+    editItem = (item) => {
+
+        localStorage.setItem("itemLocalStorageId", item.id)
+
+        this.setState({
+            objectItem: item
+        }, this.openEditMenuForm())
+
+
+    }
+
+    updateStateForEditMenu = () => {
+        this.componentDidMount()
+        this.setState({
+            objectItem: false
+        })
+
+
+
+
+    }
+
+
+    openEditMenuForm = () => {
+        this.showModalEdit()
+    }
+
+    showModalEdit = () => {
+        this.setState({ addModalShowEdit: true })
+    }
+
+
+    deleteItem = (item) => {
+
+        fetch(`http://localhost:3000/items/${item.id}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${localStorage.token}`
+            }
+        },
+            this.setState({
+                allItems: this.state.allItems.filter(singleItem => singleItem.id !== item.id)
+            })
+        )
     }
 
     sortMainItems = () => {
@@ -85,7 +135,7 @@ class MenusItems extends React.Component {
                         startersItems: starters,
                         mainItems: mainDishes,
                         sidesItems: sides,
-                        dessertsItems: desserts, 
+                        dessertsItems: desserts,
                         allItemsForSortAllItems: data.items,
 
                     })
@@ -135,7 +185,7 @@ class MenusItems extends React.Component {
                     })
                 })
         }
-        
+
         this.setState({
             allItems: this.state.allItemsForSortAllItems
         })
@@ -146,6 +196,7 @@ class MenusItems extends React.Component {
     }
 
     componentDidMount = () => {
+
 
         if (this.props.history.location.state == undefined) {
             console.log(`http://localhost:3000/menus/${localStorage.menuId}`)
@@ -186,7 +237,7 @@ class MenusItems extends React.Component {
                         startersItems: starters,
                         mainItems: mainDishes,
                         sidesItems: sides,
-                        dessertsItems: desserts, 
+                        dessertsItems: desserts,
                         allItemsForSortAllItems: data.items,
 
                     })
@@ -238,6 +289,8 @@ class MenusItems extends React.Component {
         }
 
 
+
+
     }
 
 
@@ -252,8 +305,8 @@ class MenusItems extends React.Component {
                             {item.itemDescription}
                         </Card.Text>
                         <div className='flex-container'>
-                            <Link className='child' style={btnMenu}>Edit</Link>
-                            <Link className='child' style={btnMenu} >Delete</Link>
+                            <Link className='child' style={btnMenu} onClick={() => this.editItem(item)}>Edit</Link>
+                            <Link className='child' style={btnMenu} onClick={() => this.deleteItem(item)}>Delete</Link>
                         </div>
 
                     </Card.Body>
@@ -280,29 +333,22 @@ class MenusItems extends React.Component {
                 addModalShow: false
             })
         }
+        let modalCloseEdit = () => {
+            this.setState({
+                objectItem: false,
+                addModalShowEdit: false
 
-
-
-        // if (this.state.allItems == false ) {
-        //     return(
-
-        //     <Spinner animation="border" role="status">
-        //         <span className="sr-only">Loading...</span>
-        //     </Spinner>
-
-        //     )
-        // }
-
+            })
+        }
 
         return (
             <>
                 <Container style={{ marginTop: '60px', marginBottom: '100px' }}>
 
                     <Jumbotron>
-                        <h1 className="h1-menus-items">Hello, world!</h1>
+                        <h1 className="h1-menus-items">Menu Name: {localStorage.menuNameForMenuItems}</h1>
                         <p className="p-menus-items">
-                            This is a simple hero unit, a simple jumbotron-style component for calling
-                            extra attention to featured content or information.
+                            <strong>Menu Description:</strong> {localStorage.menuDescriptionForMenuItems}
                         </p>
 
                         <div className='flex-container'>
@@ -315,21 +361,61 @@ class MenusItems extends React.Component {
 
                         </div>
                     </Jumbotron>
-                    <CardColumns>
-                        {this.state.allItems ? (
+                </Container>
+
+
+                {this.state.allItems ? (
+                    <>
+                        
+
+
+
+
+                        {this.state.allItems.length == 0 ? (
                             <>
-                                {this.renderItems()}
+                                <div className="message-my-menus-items" >
+                                    <h1 className="message-my-menus-content">
+                                        To add a item, click on the "Create New Item" button
+                            </h1>
+                                </div>
                             </>
                         ) : (
-                                <>
-                                    <Spinner animation="border" role="status">
-                                        <span className="sr-only">Loading...</span>
-                                    </Spinner>
-                                </>
+                                <div >
+                                    <div className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '100px' }}>
+
+                                    {this.renderItems()}
+
+                                    </div>
+
+
+                                </div>
                             )}
 
-                    </CardColumns>
-                </Container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </>
+                ) : (
+                        <>
+                            <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                        </>
+                    )}
+
+
 
                 <CreateNewItemForMyItems
                     show={this.state.addModalShow}
@@ -338,6 +424,27 @@ class MenusItems extends React.Component {
                     updateAllItems={this.componentDidMount}
 
                 />
+
+
+
+                {
+                    this.state.objectItem
+                        ? (
+                            <>
+                                <EditItem
+                                    show={this.state.addModalShowEdit}
+                                    onHide={modalCloseEdit}
+                                    updateStateForEditMenu={this.updateStateForEditMenu}
+                                    objectItem={this.state.objectItem}
+                                />
+                            </>
+                        ) : (
+                            <>
+
+                            </>
+                        )}
+
+
 
             </>
         );

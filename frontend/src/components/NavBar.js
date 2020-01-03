@@ -55,8 +55,7 @@ class NavBar extends React.Component {
               )}
 
 
-            <Link style={navLinks}>Pricing</Link>
-            <Link style={navLinks}>About Us</Link>
+    
           </Nav>
 
 

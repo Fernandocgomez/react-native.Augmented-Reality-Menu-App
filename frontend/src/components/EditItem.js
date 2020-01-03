@@ -4,7 +4,7 @@ import S3 from 'aws-s3-pro';
 let amazonS3Key = require('./AmazonKey.js')
 
 
-class CreateItem extends Component {
+class EditItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,18 +12,18 @@ class CreateItem extends Component {
             spinnerOntexture_url: false,
             spinnerOnmtl_url: false,
             spinnerOnobj_url: false,
-            itemName: false,
-            img_2D_url: false,
-            texture_url: false,
-            mtl_url: false,
-            obj_url: false,
-            category: false,
-            itemDescription: false
+            itemName: this.props.objectItem.itemName,
+            img_2D_url: this.props.objectItem.img_2D_url,
+            texture_url: this.props.objectItem.texture_url,
+            mtl_url: this.props.objectItem.mtl_url,
+            obj_url: this.props.objectItem.obj_url,
+            category: this.props.objectItem.category,
+            itemDescription: this.props.objectItem.itemDescription,
+            itemId: this.props.objectItem.itemId
         };
     }
 
-
-
+    
 
 
 
@@ -35,7 +35,7 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
-            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.itemName}/img2D`,
+            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${localStorage.menuId}/${this.state.itemName}/img2D`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
             secretAccessKey: `${amazonS3Key[1]}`
@@ -62,7 +62,7 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
-            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.category}/${this.state.itemName}`,
+            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${localStorage.menuId}/${this.state.category}/${this.state.itemName}`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
             secretAccessKey: `${amazonS3Key[1]}`
@@ -86,11 +86,11 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
-            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.category}/${this.state.itemName}`,
+            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${localStorage.menuId}/${this.state.category}/${this.state.itemName}`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
-            secretAccessKey: `${amazonS3Key[1]}`, 
-            
+            secretAccessKey: `${amazonS3Key[1]}`,
+
         }
 
         const ReactS3Client = new S3(config);
@@ -112,11 +112,11 @@ class CreateItem extends Component {
         })
         const config = {
             bucketName: 'armenu',
-            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${this.props.menuName}/${this.props.menuId}/${this.state.category}/${this.state.itemName}`,
+            dirName: `3dModels/${localStorage.currentRestaurantName}/${localStorage.currentRestaurantId}/${localStorage.menuId}/${this.state.category}/${this.state.itemName}`,
             region: 'us-east-2',
             accessKeyId: `${amazonS3Key[0]}`,
             secretAccessKey: `${amazonS3Key[1]}`,
-            
+
         }
 
         const ReactS3Client = new S3(config);
@@ -137,30 +137,31 @@ class CreateItem extends Component {
         })
     }
 
-    createItem = (e) => {
+    editItem = (e) => {
         this.props.onHide()
         e.preventDefault()
-        fetch('http://localhost:3000/items', {
-            method: 'POST',
+        console.log(localStorage.itemLocalStorageId)
+        fetch(`http://localhost:3000/items/${localStorage.itemLocalStorageId}`, {
+            method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${localStorage.token}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                itemName: this.state.itemName, 
-                itemDescription: this.state.itemDescription, 
-                texture_url: this.state.texture_url, 
-                obj_url: this.state.obj_url, 
-                mtl_url: this.state.mtl_url, 
-                category: this.state.category, 
-                img_2D_url: this.state.img_2D_url, 
-                menu_id: this.props.menuId
+                itemName: this.state.itemName,
+                itemDescription: this.state.itemDescription,
+                texture_url: this.state.texture_url,
+                obj_url: this.state.obj_url,
+                mtl_url: this.state.mtl_url,
+                category: this.state.category,
+                img_2D_url: this.state.img_2D_url,
+                menu_id: localStorage.menuId
             })
         })
             .then(res => res.json())
             .then(newMenu => {
-                console.log(newMenu)
-            }, this.props.history.history.push('/my-menus/items', this.props.menuId))
+                this.props.updateStateForEditMenu()
+            })
 
 
 
@@ -175,6 +176,7 @@ class CreateItem extends Component {
         console.log(this.state)
 
 
+
         return (
             <Modal
                 {...this.props}
@@ -184,7 +186,7 @@ class CreateItem extends Component {
             >
                 <Modal.Header closeButton>
                     <Modal.Title >
-                        Add A New Item
+                        Edit Item
                 </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -192,17 +194,17 @@ class CreateItem extends Component {
                         <Form onSubmit={(e) => this.createItem(e)}>
                             <Form.Group >
                                 <Form.Label>Item Name</Form.Label>
-                                <Form.Control type="text" placeholder="Enter menu name" onChange={(e) => this.handleChange(e)} name="itemName" />
+                                <Form.Control type="text" placeholder={this.state.itemName} onChange={(e) => this.handleChange(e)} name="itemName" />
                             </Form.Group>
                             <Form.Group >
                                 <Form.Label>Item Description</Form.Label>
-                                <Form.Control type="text" as="textarea" rows="3" placeholder="Enter item description" onChange={(e) => this.handleChange(e)} name="itemDescription" />
+                                <Form.Control type="text" as="textarea" rows="3" placeholder={this.state.itemDescription} onChange={(e) => this.handleChange(e)} name="itemDescription" />
                             </Form.Group>
 
                             <Form.Group as={Col}>
                                 <Form.Label>Select Category</Form.Label>
                                 <Form.Control onChange={(e) => this.handleChange(e)} as="select" name="category">
-                                    <option>Please select a category</option>
+                                    <option> Current: {this.state.category}</option>
                                     <option>Starters</option>
                                     <option>Main Dishes</option>
                                     <option>Sides</option>
@@ -259,7 +261,7 @@ class CreateItem extends Component {
                                                 </>
                                             )}
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div className='parent-create-item-input-file'>
@@ -325,8 +327,8 @@ class CreateItem extends Component {
                                     this.state.category &&
                                     this.state.itemDescription ? (
                                         <>
-                                            <Button variant="primary" type="submit" className='child-create-menu' onClick={this.createItem}>
-                                                Create New Item
+                                            <Button variant="primary" type="submit" className='child-create-menu' onClick={this.editItem}>
+                                                Update Item
                                             </Button>
                                         </>
                                     ) : (
@@ -351,4 +353,4 @@ class CreateItem extends Component {
     }
 }
 
-export default CreateItem;
+export default EditItem;

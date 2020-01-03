@@ -56,6 +56,10 @@ class App extends React.Component {
     return (
 
       
+
+     
+
+      
       <BrowserRouter>
           
           <NavBar showNavLinks={this.state.showNavLinks} logout={this.logout} />
@@ -70,7 +74,10 @@ class App extends React.Component {
 
 
           </Switch>
+
+
           <Footer />
+
       </BrowserRouter>
       
 

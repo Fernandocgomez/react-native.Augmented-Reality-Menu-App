@@ -10,10 +10,10 @@ class MyMenus extends React.Component {
         this.state = {
             addModalShow: false,
             addModalShowEdit: false,
-            menus: [], 
-            menuId: null, 
+            menus: [],
+            menuId: null,
             menuObject: null
-            
+
         };
     }
 
@@ -40,23 +40,23 @@ class MyMenus extends React.Component {
             })
     }
 
-    
+
     renderMenus = () => {
         return this.state.menus.map(menu => {
             return (
-                <Card style={{width: '18rem'}} classNAme="my-menus-child">
+                <Card style={{ width: '18rem', marginTop: '20px' }}>
                     <Card.Img variant="top" src={menu.img_url} />
                     <Card.Body>
-                        <Card.Title><Link onClick={() => {this.redirectToItem(menu)}}>{menu.name}</Link></Card.Title>
+                        <Card.Title><Link onClick={() => { this.redirectToItem(menu) }}>{menu.name}</Link></Card.Title>
                         <Card.Text>
                             {menu.description}
                         </Card.Text>
                         <div className='flex-container'>
-                            <Link className='child' style={btnMenu} onClick={() => {this.openEditMenuForm(menu)}}>Edit</Link>
-                            <Link className='child' style={btnMenu} onClick={() => {this.deleteMenu(menu)}}>Delete</Link>
+                            <Link className='child' style={btnMenu} onClick={() => { this.openEditMenuForm(menu) }}>Edit</Link>
+                            <Link className='child' style={btnMenu} onClick={() => { this.deleteMenu(menu) }}>Delete</Link>
                         </div>
                         <div className='flex-container-2'>
-                            <Link className='child' style={btnMenuAction} onClick={() => {this.openCreateItemForm(menu)}}>
+                            <Link className='child' style={btnMenuAction} onClick={() => { this.openCreateItemForm(menu) }}>
                                 Add Item
                             </Link>
                         </div>
@@ -68,25 +68,27 @@ class MyMenus extends React.Component {
 
     redirectToItem = (menu) => {
         localStorage.setItem("menuId", menu.id)
+        localStorage.setItem("menuNameForMenuItems", menu.name)
+        localStorage.setItem("menuDescriptionForMenuItems", menu.description)
 
         this.setState({
             menuId: menu.id
-        }, () => {this.props.history.history.push('/my-menus/items', this.state.menuId)})
-        
-        
+        }, () => { this.props.history.history.push('/my-menus/items', this.state.menuId) })
+
+
     }
 
     deleteMenu = (menu) => {
 
         fetch(`http://localhost:3000/menus/${menu.id}`, {
-            method: 'DELETE', 
+            method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${localStorage.token}`
             }
         },
-        this.setState({
-            menus: this.state.menus.filter(singleMenu => singleMenu.id !== menu.id)
-        })
+            this.setState({
+                menus: this.state.menus.filter(singleMenu => singleMenu.id !== menu.id)
+            })
         )
     }
 
@@ -96,6 +98,8 @@ class MyMenus extends React.Component {
             menuId: menu.id,
             menuName: menu.name
         })
+        localStorage.setItem("menuNameForMenuItems", menu.name)
+        localStorage.setItem("menuDescriptionForMenuItems", menu.description)
     }
 
     openEditMenuForm = (menu) => {
@@ -103,13 +107,13 @@ class MyMenus extends React.Component {
         this.showModalEdit()
         this.setState({
             menuId: menu.id,
-            menuObject: menu, 
+            menuObject: menu,
         })
-        
+
     }
-    
+
     newMenuUpdated = (object) => {
-        let newArrayMenus = this.state.menus.filter(menu=> menu.id != object.id)
+        let newArrayMenus = this.state.menus.filter(menu => menu.id != object.id)
         newArrayMenus.push(object)
         this.setState({
             menus: newArrayMenus
@@ -120,7 +124,7 @@ class MyMenus extends React.Component {
 
     render() {
 
-        
+
 
         let modalClose = () => {
             this.setState({
@@ -135,19 +139,37 @@ class MyMenus extends React.Component {
         }
 
 
-    
+
+
+
         return (
             <>
-                <Container className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '100px'}}>
-                    <CardColumns>
-                        {this.renderMenus()}
-                    </CardColumns>
-                </Container>
+
+                {this.state.menus.length == 0 ? (
+                    <>
+                        <div className="message-my-menus" >
+                                <h1 className="message-my-menus-content">
+                                    To add a new menu, click on the "Create New Menu" link on the navegation bar
+                            </h1>
+                            </div>
+                    </>
+                ) : (
+                        <div >
+                            <div className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '100px' }}>
+
+                                    {this.renderMenus()}
+
+                            </div>
+
+                            
+                        </div>
+                    )}
+
 
                 <CreateItem
                     show={this.state.addModalShow}
                     onHide={modalClose}
-                    menuId={this.state.menuId} 
+                    menuId={this.state.menuId}
                     menuName={this.state.menuName}
                     history={this.props.history}
                 />
