@@ -55,7 +55,7 @@ class LoginForm extends React.Component {
         return (
             <>
                 <h1 style={h1}>Welcome!</h1>
-                <Container style={{ marginTop: '30px', backgroundColor: '#f8f8f8', padding: '50px', borderRadius: 6, width: '75%', marginBottom: '100px' }}>
+                <Container style={{ marginTop: '30px', backgroundColor: '#f8f8f8', padding: '50px', borderRadius: 6, width: '75%', marginBottom: '380px' }}>
                     <Form onSubmit={(e) => this.login(e)}>
                         <Form.Group>
                             <Form.Label>Email address</Form.Label>
@@ -81,5 +81,6 @@ export default LoginForm;
 
 const h1 = {
     textAlign: 'center',
-    marginTop: '15px'
+    marginTop: '30px',
+    marginBottom: '30px'
 };

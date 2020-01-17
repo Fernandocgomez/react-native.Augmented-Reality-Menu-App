@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, ActivityIndicator, ScrollView } from 'react-native';
 
 
 class SelectRestaurant extends Component {
@@ -63,7 +63,7 @@ class SelectRestaurant extends Component {
 
 
         return (
-            
+            <ScrollView>
             <View>
                 <TouchableOpacity
                     onPress={this.goBack}
@@ -76,6 +76,7 @@ class SelectRestaurant extends Component {
                 {this.renderRestaurants()}
 
             </View>
+            </ScrollView>
         )
     }
 }

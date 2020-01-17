@@ -41,7 +41,7 @@ class NavBar extends React.Component {
     return (
       <>
         <Navbar style={navBar}>
-          <Navbar.Brand href="#home">Ar Gourmet</Navbar.Brand>
+          <Navbar.Brand style={{color: '#fff'}}>Ar Gourmet</Navbar.Brand>
           <Nav className="mr-auto">
 
             {this.props.showNavLinks ? (
