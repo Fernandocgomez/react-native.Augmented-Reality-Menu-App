@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Image, Button } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, Button, ScrollView } from 'react-native';
 
 
 
@@ -43,6 +43,7 @@ class Item extends Component {
     render() {
 
         return (
+            <ScrollView>
             <View>
 
                 <TouchableOpacity
@@ -59,6 +60,7 @@ class Item extends Component {
 
 
             </View>
+            </ScrollView>
         )
     }
 }

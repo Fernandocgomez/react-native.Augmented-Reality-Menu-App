@@ -155,7 +155,7 @@ class MyMenus extends React.Component {
                     </>
                 ) : (
                         <div >
-                            <div className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '100px' }}>
+                            <div className="my-menus-parent" style={{ marginTop: '60px', marginBottom: '340px' }}>
 
                                     {this.renderMenus()}
 

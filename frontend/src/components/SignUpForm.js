@@ -80,7 +80,7 @@ class SignUpForm extends React.Component {
     return (
       <>
         <h1 style={h1}>Register Your Business, Today!</h1>
-        <Container style={{ marginTop: '30px', backgroundColor: '#f8f8f8', padding: '50px', borderRadius: 6 }}>
+        <Container style={{ marginTop: '30px', backgroundColor: '#f8f8f8', padding: '50px', borderRadius: 6, marginBottom: '120px' }}>
           <Form onSubmit={(e) => this.signUp(e)}>
             <Form.Row>
               <Form.Group as={Col}>

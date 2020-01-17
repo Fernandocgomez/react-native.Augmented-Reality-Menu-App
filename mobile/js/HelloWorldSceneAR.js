@@ -6,6 +6,7 @@ import {
   Viro3DObject,
   ViroAmbientLight,
   ViroAnimations,
+ 
 
 
 } from 'react-viro';
@@ -31,14 +32,13 @@ export default class HelloWorldSceneAR extends Component {
 
     return (
 
+
+
       <ViroARScene>
 
         <ViroAmbientLight color={"#FFFFFF"} intensity={1000} />
         {/* <ViroSpotLight innerAngle={5} outerAngle={90} direction={[0, -1, -.2]}
           position={[-.04, -2, -4.5]} color="#ffffff" castsShadow={true} /> */}
-
-
-
 
         <Viro3DObject animation={{ name: "rotate", run: true, loop: true }}
           source={{
@@ -50,9 +50,8 @@ export default class HelloWorldSceneAR extends Component {
 
           position={[-.04, -2, -4.5]}
           scale={[.025, .025, .025]}
-          type="OBJ" 
-          onClick={this.tap}/>
-
+          type="OBJ"
+          onClick={this.tap} />
 
 
 

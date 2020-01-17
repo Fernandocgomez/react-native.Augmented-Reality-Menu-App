@@ -50,16 +50,9 @@ class App extends React.Component {
   
 
   render() {
-    
-
 
     return (
 
-      
-
-     
-
-      
       <BrowserRouter>
           
           <NavBar showNavLinks={this.state.showNavLinks} logout={this.logout} />

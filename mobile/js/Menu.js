@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, ActivityIndicator, ScrollView } from 'react-native';
 
 
 class Menu extends Component {
@@ -72,6 +72,8 @@ class Menu extends Component {
       console.log(this.props)
 
       return (
+
+         <ScrollView>
          
          <View style={styles.container}>
 
@@ -116,6 +118,7 @@ class Menu extends Component {
             </View>
 
          </View>
+         </ScrollView>
       )
    }
 }

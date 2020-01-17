@@ -343,7 +343,7 @@ class MenusItems extends React.Component {
 
         return (
             <>
-                <Container style={{ marginTop: '60px', marginBottom: '100px' }}>
+                <Container style={{ marginTop: '60px' }}>
 
                     <Jumbotron>
                         <h1 className="h1-menus-items">Menu Name: {localStorage.menuNameForMenuItems}</h1>
@@ -390,20 +390,6 @@ class MenusItems extends React.Component {
 
                                 </div>
                             )}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                     </>
