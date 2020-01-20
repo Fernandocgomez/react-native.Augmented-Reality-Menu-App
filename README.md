@@ -6,7 +6,7 @@ The idea was born thanks to my many of my bad experiences and my friends’ many
 
 #### [Click Here To Watch A Video Of The Web App][1]
 
-#### [Click Here To Watch A Video Of The Mobile App][1]
+#### [Click Here To Watch A Video Of The Mobile App][2]
 
 AR Gourmet was built using technologies such as: 
 
@@ -84,4 +84,4 @@ AR Gourmet was built using technologies such as:
 
 
 [1]: https://youtu.be/s8u8GxXn2jo "Click Here To Watch A Video Of The Web App"
-[1]: https://youtu.be/LIX5R836aGo "Click Here To Watch A Video Of The Mobile"
+[2]: https://youtu.be/LIX5R836aGo "Click Here To Watch A Video Of The Mobile App"
